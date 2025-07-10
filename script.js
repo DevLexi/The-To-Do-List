@@ -67,4 +67,27 @@ list.append(li)
     function saveTasks(){
         localStorage.setItem("tasks",JSON.stringify(tasks))
     }
+const filterButtons = document.querySelectorAll(".filter-btn");
 
+filterButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    const filter = btn.getAttribute("data-filter");
+    renderFilteredTasks(filter);
+  });
+});
+
+function renderFilteredTasks(filter) {
+  list.innerHTML = ""; // clear current list
+
+  let filtered = [];
+
+  if (filter === "all") {
+    filtered = tasks;
+  } else if (filter === "completed") {
+    filtered = tasks.filter(t => t.completed);
+  } else if (filter === "incomplete") {
+    filtered = tasks.filter(t => !t.completed);
+  }
+
+  filtered.forEach(taskObj => addTaskToDOM(taskObj));
+}
